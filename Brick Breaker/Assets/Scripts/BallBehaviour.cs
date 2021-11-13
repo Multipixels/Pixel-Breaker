@@ -11,54 +11,71 @@ public class BallBehaviour : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private bool hasCollided;
+
     void Start(){
         movementVector = new Vector3(0, -1, 0);
         speed = 8;
 
         rb = GetComponent<Rigidbody2D>();
+
+        hasCollided = false;
     }
 
     // Update is called once per frame
     void FixedUpdate() {
         //transform.position += movementVector * Time.deltaTime * speed;
         rb.velocity = movementVector * speed;
+
+        hasCollided = false;
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
 
-        if(collision.gameObject.tag == "Paddle") {
-            float collisionContactPoint = collision.GetContact(0).point[0];
-            Vector2 normalVector = collision.GetContact(0).normal;
+        if(hasCollided == false) {
+            if(collision.gameObject.tag == "Paddle") {
+                float collisionContactPoint = collision.GetContact(0).point[0];
+                Vector2 normalVector = collision.GetContact(0).normal;
 
-            collisionContactPoint += -collision.gameObject.transform.position.x;
+                print(collisionContactPoint);
 
-            float angleMultiplier = collisionContactPoint / (collision.gameObject.transform.localScale.x / 2);
-            float angle = angleMultiplier * (Mathf.PI / 4);
+                collisionContactPoint += -collision.gameObject.transform.position.x;
 
-            Vector2 newMovementCollider = new Vector2(0, 0);
+                float angleMultiplier = collisionContactPoint / (collision.gameObject.transform.localScale.x / 2);
+                float angle = angleMultiplier * (Mathf.PI / 4);
 
-            if(normalVector[0] == 0) {
-                newMovementCollider = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle) * normalVector[1]);
+                Vector2 newMovementCollider = new Vector2(0, 0);
+
+                if(normalVector[0] == 0) {
+                    newMovementCollider = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle) * normalVector[1]);
+                } else {
+                    newMovementCollider = new Vector2(-Mathf.Sin(angle), Mathf.Cos(angle));
+                }
+
+                movementVector = newMovementCollider;
+                
             } else {
-                newMovementCollider = new Vector2(-Mathf.Sin(angle), Mathf.Cos(angle));
-            }
 
-            movementVector = newMovementCollider;
-            print(collision.GetContact(0).normal);
-        } else {
-
-            Vector2 normalVector = collision.GetContact(0).normal;
-            print(normalVector);
-            print(movementVector);
-            if(normalVector[0] == 0) {
-                movementVector = new Vector2(movementVector[0], -movementVector[1]);
-            } else {
-                print("works)");
-                movementVector = new Vector2(-movementVector[0], movementVector[1]);
+                Vector2 normalVector = collision.GetContact(0).normal;
+                print(normalVector);
                 print(movementVector);
-            }
-        }
+                if(Math.Abs(normalVector[0]) != 1) {
+                    movementVector = new Vector2(movementVector[0], -movementVector[1]);
+                    print("bot/top");
+                } else {
+                    movementVector = new Vector2(-movementVector[0], movementVector[1]);
+                    print("side");
+                }
 
+                print(movementVector);
+
+                if(collision.gameObject.tag == "Brick") {
+                    Destroy(collision.gameObject);
+                }
+            }
+
+            hasCollided = true;
+        }
         
     }
 }
