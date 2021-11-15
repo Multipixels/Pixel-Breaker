@@ -21,10 +21,10 @@ public class PaddleMovement : MonoBehaviour
         position[0] = mousePos.x;
 
 
-        if(position[0] > screenBoundryX - (paddleSize / 2)) {
-            position[0] = screenBoundryX - (paddleSize / 2);
-        } else if(position[0] < -screenBoundryX + (paddleSize / 2)) {
-            position[0] = -screenBoundryX + (paddleSize / 2);
+        if(position[0] > screenBoundryX - (paddleSize / 2) - 0.2f) {
+            position[0] = screenBoundryX - (paddleSize / 2) - 0.2f;
+        } else if(position[0] < -screenBoundryX + (paddleSize / 2) + 0.2f) {
+            position[0] = -screenBoundryX + (paddleSize / 2) + 0.2f;
         }
 
 

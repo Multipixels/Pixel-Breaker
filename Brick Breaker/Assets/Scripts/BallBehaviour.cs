@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+//using System;
 
 public class BallBehaviour : MonoBehaviour
 {
@@ -13,8 +13,10 @@ public class BallBehaviour : MonoBehaviour
 
     private bool hasCollided;
 
-    void Start(){
-        movementVector = new Vector3(0, -1, 0);
+    void Start() {
+        float tempAngle = Random.Range(Mathf.PI / 4, 3 * Mathf.PI / 4);
+        movementVector = new Vector2(Mathf.Cos(tempAngle), Mathf.Sin(tempAngle));
+        print(tempAngle);
         speed = 8;
 
         rb = GetComponent<Rigidbody2D>();
@@ -32,16 +34,24 @@ public class BallBehaviour : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision) {
 
+        if(collision.gameObject.tag == "Kill") {
+            Destroy(gameObject);
+        }
+
         if(hasCollided == false) {
             if(collision.gameObject.tag == "Paddle") {
                 float collisionContactPoint = collision.GetContact(0).point[0];
                 Vector2 normalVector = collision.GetContact(0).normal;
 
-                print(collisionContactPoint);
-
                 collisionContactPoint += -collision.gameObject.transform.position.x;
 
                 float angleMultiplier = collisionContactPoint / (collision.gameObject.transform.localScale.x / 2);
+                if(angleMultiplier >= 0) {
+                    angleMultiplier = ExtensionMethods.Remap(angleMultiplier, 0, 1, 0.5f, 1.25f);
+                } else {
+                    angleMultiplier = ExtensionMethods.Remap(angleMultiplier, -1, 0, -1.25f, -0.5f);
+                }
+                
                 float angle = angleMultiplier * (Mathf.PI / 4);
 
                 Vector2 newMovementCollider = new Vector2(0, 0);
@@ -57,21 +67,15 @@ public class BallBehaviour : MonoBehaviour
             } else {
 
                 Vector2 normalVector = collision.GetContact(0).normal;
-                print(normalVector);
-                print(movementVector);
-                if(Math.Abs(normalVector[0]) != 1) {
+                if(Mathf.Abs(normalVector[0]) != 1) {
                     movementVector = new Vector2(movementVector[0], -movementVector[1]);
-                    print("bot/top");
                 } else {
                     movementVector = new Vector2(-movementVector[0], movementVector[1]);
-                    print("side");
                 }
 
-                print(movementVector);
-
-                if(collision.gameObject.tag == "Brick") {
-                    Destroy(collision.gameObject);
-                }
+                //if(collision.gameObject.tag == "Brick") {
+                //    Destroy(collision.gameObject);
+                //}
             }
 
             hasCollided = true;
