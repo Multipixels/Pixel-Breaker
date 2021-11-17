@@ -4,13 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
-{
+public class GameManager : MonoBehaviour {
     
     public GameObject[] bricks;
     public RectTransform heartIndicator;
+    
     public Text heartText;
+    public Text timerText;
+    
     public GameObject restartButton;
+    
 
     private float timePassed;
     private float levelTimePassed;
@@ -28,8 +31,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake() {
         Time.timeScale = 0;
-
-        
     }
 
     void Start() {
@@ -47,6 +48,11 @@ public class GameManager : MonoBehaviour
     void Update() {
         timePassed += Time.deltaTime;
         levelTimePassed += Time.deltaTime;
+
+        int min = Mathf.FloorToInt(timePassed / 60);
+        int sec = Mathf.FloorToInt(timePassed % 60);
+        int millisec = Mathf.FloorToInt(timePassed * 100 % 100);
+        timerText.text = min.ToString("00") + ":" + sec.ToString("00") + ":" + millisec.ToString("00");
         
 
         if(timePassed >= 8 && heartShown == false) {
@@ -170,7 +176,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void restart() {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
 }
