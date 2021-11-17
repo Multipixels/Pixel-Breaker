@@ -37,7 +37,11 @@ public class BrickBehaviour : MonoBehaviour
     }
 
     public static void setSpeed() {
-        speed = 0.1f;        
+        speed = 0.15f;        
+    }
+
+    public static float getSpeed() {
+        return speed;
     }
 
     void OnCollisionEnter2D() {
