@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         }
 
         if(timePassed >= 10) {
-            BrickBehaviour.setSpeed();
+            BrickBehaviour.setSpeed(0.15f);
         }
 
         if(levelTimePassed >= (8.5f / BrickBehaviour.getSpeed() / 2) && BrickBehaviour.getSpeed() != 0) {
@@ -165,6 +165,7 @@ public class GameManager : MonoBehaviour
 
     public void lose() {
         Time.timeScale = 0;
+        BrickBehaviour.setSpeed(0);
         restartButton.SetActive(true);
     }
 

@@ -36,8 +36,8 @@ public class BrickBehaviour : MonoBehaviour
         }
     }
 
-    public static void setSpeed() {
-        speed = 0.15f;        
+    public static void setSpeed(float speedSet) {
+        speed = speedSet;        
     }
 
     public static float getSpeed() {
