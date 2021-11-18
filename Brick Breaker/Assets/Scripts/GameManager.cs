@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void Start() {
+        Time.timeScale = 0;
         timePassed = 0;
         levelTimePassed = 20;
         
@@ -165,7 +166,9 @@ public class GameManager : MonoBehaviour {
         }
 
         if(lives == 0) {
-            lose();
+            foreach(GameObject ball in GameObject.FindGameObjectsWithTag("Ball")) {
+                Destroy(ball);
+            }
         }
     }
 
@@ -176,7 +179,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void restart() {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadSceneAsync(1);
     }
 
 }

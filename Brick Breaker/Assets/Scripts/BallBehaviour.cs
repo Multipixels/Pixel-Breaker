@@ -16,19 +16,17 @@ public class BallBehaviour : MonoBehaviour
     void Start() {
         float tempAngle = Random.Range(Mathf.PI / 4, 3 * Mathf.PI / 4);
         movementVector = new Vector2(Mathf.Cos(tempAngle), Mathf.Sin(tempAngle));
-        print(tempAngle);
         speed = 8;
 
         rb = GetComponent<Rigidbody2D>();
+
+        rb.velocity = movementVector * speed;
 
         hasCollided = false;
     }
 
     // Update is called once per frame
-    void FixedUpdate() {
-        //transform.position += movementVector * Time.deltaTime * speed;
-        rb.velocity = movementVector * speed;
-
+    void FixedUpdate() {       
         hasCollided = false;
     }
 
@@ -63,8 +61,9 @@ public class BallBehaviour : MonoBehaviour
                 }
 
                 movementVector = newMovementCollider;
+                changeVelocity(movementVector);
                 
-            } else {
+            }/* else {
 
                 Vector2 normalVector = collision.GetContact(0).normal;
                 if(Mathf.Abs(normalVector[0]) != 1) {
@@ -75,11 +74,14 @@ public class BallBehaviour : MonoBehaviour
 
                 //if(collision.gameObject.tag == "Brick") {
                 //    Destroy(collision.gameObject);
-                //}
-            }
+                //}*/
+            //}
 
             hasCollided = true;
         }
         
+        void changeVelocity(Vector3 velocityChange) {
+            rb.velocity = velocityChange * speed;
+        }
     }
 }
