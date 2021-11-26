@@ -8,6 +8,7 @@ TagManager:
   - Brick
   - Kill
   - Ball
+  - BrickKill
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - Water
   - UI
   - Ball
-  - 
+  - BrickKill
   - 
   - 
   - 

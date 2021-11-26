@@ -7,19 +7,13 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
     
     public GameObject[] bricks;
-    public RectTransform heartIndicator;
-    
-    public Text heartText;
+
     public Text timerText;
     
     public GameObject restartButton;
-    
 
     private float timePassed;
     private float levelTimePassed;
-
-    private bool heartShown = false;
-    IEnumerator heartCoroutine;
 
     private int level;
 
@@ -37,8 +31,7 @@ public class GameManager : MonoBehaviour {
         Time.timeScale = 0;
         timePassed = 0;
         levelTimePassed = 20;
-        
-        heartCoroutine = LerpHeart(); 
+
         level = 1;
         levelSummon(level);
         
@@ -54,13 +47,6 @@ public class GameManager : MonoBehaviour {
         int sec = Mathf.FloorToInt(timePassed % 60);
         int millisec = Mathf.FloorToInt(timePassed * 100 % 100);
         timerText.text = min.ToString("00") + ":" + sec.ToString("00") + ":" + millisec.ToString("00");
-        
-
-        if(timePassed >= 8 && heartShown == false) {
-            heartShown = true;
-
-            StartCoroutine(heartCoroutine);
-        }
 
         if(timePassed >= 10) {
             BrickBehaviour.setSpeed(0.15f);
@@ -78,32 +64,15 @@ public class GameManager : MonoBehaviour {
             heartInvulnerability -= Time.deltaTime;
         }
 
-        heartText.text = lives + "x";
-
         if(GameObject.FindGameObjectsWithTag("Ball").Length == 0) {
             lose();
         }
     }
 
-    IEnumerator LerpHeart() {
-        float timePassedLerp = 0f;
-        Vector3 startPosition = new Vector3(1097.5f, 465f, 0);
-        Vector3 endPosition = new Vector3(822.5f, 465f, 0);
-
-        while(timePassedLerp <= 2) {
-            timePassedLerp += Time.deltaTime;
-            float normalizedNumber = timePassedLerp / 2f;
-            heartIndicator.anchoredPosition = new Vector3(Mathf.Lerp(1097.5f, 822.5f, normalizedNumber), 465f, 0);
-            yield return null;
-        }
-
-        yield return null;
-    }
-
     public void continueGame(GameObject button) {
         GameObject.Find("Paddle").transform.DetachChildren();
         Destroy(button);
-        Time.timeScale = 1;
+        Time.timeScale = 1f;
     }
 
     void levelSummon(int levelNumber) {

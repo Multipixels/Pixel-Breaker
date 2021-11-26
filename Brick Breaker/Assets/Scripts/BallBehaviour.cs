@@ -13,6 +13,8 @@ public class BallBehaviour : MonoBehaviour
 
     private bool hasCollided;
 
+    private Collision2D lastCollision;
+
     void Start() {
         float tempAngle = Random.Range(Mathf.PI / 4, 3 * Mathf.PI / 4);
         movementVector = new Vector2(Mathf.Cos(tempAngle), Mathf.Sin(tempAngle));
@@ -26,7 +28,7 @@ public class BallBehaviour : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate() {       
+    void FixedUpdate() {
         hasCollided = false;
     }
 
@@ -36,7 +38,7 @@ public class BallBehaviour : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if(hasCollided == false) {
+        if(hasCollided == false && ((lastCollision != null && GameObject.ReferenceEquals(lastCollision.gameObject, collision.gameObject)) || lastCollision == null)) {
             if(collision.gameObject.tag == "Paddle") {
                 float collisionContactPoint = collision.GetContact(0).point[0];
                 Vector2 normalVector = collision.GetContact(0).normal;
@@ -44,6 +46,13 @@ public class BallBehaviour : MonoBehaviour
                 collisionContactPoint += -collision.gameObject.transform.position.x;
 
                 float angleMultiplier = collisionContactPoint / (collision.gameObject.transform.localScale.x / 2);
+
+                if (angleMultiplier < -1) {
+                    angleMultiplier = -1;
+                } else if(angleMultiplier > 1) {
+                    angleMultiplier = 1;
+                }
+
                 if(angleMultiplier >= 0) {
                     angleMultiplier = ExtensionMethods.Remap(angleMultiplier, 0, 1, 0.5f, 1.25f);
                 } else {
@@ -63,21 +72,7 @@ public class BallBehaviour : MonoBehaviour
                 movementVector = newMovementCollider;
                 changeVelocity(movementVector);
                 
-            }/* else {
-
-                Vector2 normalVector = collision.GetContact(0).normal;
-                if(Mathf.Abs(normalVector[0]) != 1) {
-                    movementVector = new Vector2(movementVector[0], -movementVector[1]);
-                } else {
-                    movementVector = new Vector2(-movementVector[0], movementVector[1]);
-                }
-
-                //if(collision.gameObject.tag == "Brick") {
-                //    Destroy(collision.gameObject);
-                //}*/
-            //}
-
-            hasCollided = true;
+            }
         }
         
         void changeVelocity(Vector3 velocityChange) {

@@ -30,7 +30,7 @@ public class BrickBehaviour : MonoBehaviour
     void Update() {
         transform.position += new Vector3(0, -1 * speed * Time.deltaTime, 0);
 
-        if(transform.position.y <= -3.5f) {
+        if(transform.position.y <= -4f) {
             gm.removeHeart();
             Destroy(gameObject);
         }
@@ -44,13 +44,20 @@ public class BrickBehaviour : MonoBehaviour
         return speed;
     }
 
-    void OnCollisionEnter2D() {
-        GetComponent<BoxCollider2D>().enabled = false;
-        if(ballType == 1) {
-            Instantiate(ballPower, transform.position, transform.rotation);
+    void OnCollisionEnter2D(Collision2D collision) {
+        if(collision.gameObject.tag == "Ball") {
+            GetComponent<BoxCollider2D>().enabled = false;
+            if(ballType == 1) {
+                Instantiate(ballPower, transform.position, transform.rotation);
+            }
+            
+            Destroy(gameObject);
+
+        } else if(collision.gameObject.tag == "BrickKill") {
+            print("Works");
+            GetComponent<BoxCollider2D>().enabled = false;
+            Destroy(gameObject);
         }
-        
-        Destroy(gameObject);
         
     }
 }
