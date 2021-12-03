@@ -35,7 +35,12 @@ public class BallBehaviour : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision) {
 
         if(collision.gameObject.tag == "Kill") {
+            SoundManager.playSound(SoundManager.Sound.LoseLife);
             Destroy(gameObject);
+        } else if(collision.gameObject.tag == "Brick") {
+            SoundManager.playSound(SoundManager.Sound.HitBrick);
+        } else {
+            SoundManager.playSound(SoundManager.Sound.HitWall);
         }
 
         if(hasCollided == false && ((lastCollision != null && GameObject.ReferenceEquals(lastCollision.gameObject, collision.gameObject)) || lastCollision == null)) {

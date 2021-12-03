@@ -978,7 +978,7 @@ GameObject:
   - component: {fileID: 1299022830}
   - component: {fileID: 1299022829}
   - component: {fileID: 1299022831}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: BallDeathCollider
   m_TagString: Kill
   m_Icon: {fileID: 0}
@@ -1727,7 +1727,7 @@ GameObject:
   - component: {fileID: 2110416366}
   - component: {fileID: 2110416365}
   - component: {fileID: 2110416364}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DeathBar
   m_TagString: BrickKill
   m_Icon: {fileID: 0}

@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour {
             heartInvulnerability -= Time.deltaTime;
         }
 
-        if(GameObject.FindGameObjectsWithTag("Ball").Length == 0) {
+        if(GameObject.FindGameObjectsWithTag("Ball").Length == 0 && Time.timeScale != 0) {
             lose();
         }
     }
@@ -132,16 +132,19 @@ public class GameManager : MonoBehaviour {
         if(heartInvulnerability <= 0) {
             lives -= 1;
             heartInvulnerability = 2;
+            SoundManager.playSound(SoundManager.Sound.LoseLife);
         }
 
         if(lives == 0) {
             foreach(GameObject ball in GameObject.FindGameObjectsWithTag("Ball")) {
                 Destroy(ball);
+                SoundManager.playSound(SoundManager.Sound.LoseGame);
             }
         }
     }
 
     public void lose() {
+        SoundManager.playSound(SoundManager.Sound.LoseGame);
         Time.timeScale = 0;
         BrickBehaviour.setSpeed(0);
         restartButton.SetActive(true);
