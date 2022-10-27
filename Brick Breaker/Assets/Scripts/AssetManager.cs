@@ -20,7 +20,14 @@ public class AssetManager : MonoBehaviour
         public AudioClip audioClip;
     }
 
+    [System.Serializable]
+    public class MusicAudioClip {
+        public SoundManager.Music music;
+        public AudioClip audioClip;
+    }
+
     public SoundAudioClip[] sounds;
+    public MusicAudioClip[] musicClips;
 
 
 }

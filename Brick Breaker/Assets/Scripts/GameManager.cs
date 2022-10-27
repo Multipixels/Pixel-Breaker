@@ -69,11 +69,18 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void continueGame(GameObject button) {
+    public void startGame(GameObject button) {
         GameObject.Find("Paddle").transform.DetachChildren();
+        MusicManager.i.startBip();
         Destroy(button);
         Time.timeScale = 1f;
     }
+
+    //public void continueGame(GameObject button) {
+        //GameObject.Find("Paddle").transform.DetachChildren();
+        //Destroy(button);
+        //Time.timeScale = 1f;
+    //}
 
     void levelSummon(int levelNumber) {
         switch(levelNumber){
@@ -145,6 +152,7 @@ public class GameManager : MonoBehaviour {
 
     public void lose() {
         SoundManager.playSound(SoundManager.Sound.LoseGame);
+        //image.pngSoundManager.
         Time.timeScale = 0;
         BrickBehaviour.setSpeed(0);
         restartButton.SetActive(true);
