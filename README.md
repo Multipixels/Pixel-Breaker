@@ -115,7 +115,7 @@ Itch.io Page: [https://multipixels.itch.io/pixel-breaker-prototype](https://mult
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/Multipixels/Keep-Talking-and-Nobody-Explodes-Bot.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/Multipixels/Pixel-Breaker.svg?style=for-the-badge
 [contributors-url]: https://github.com/Multipixels/Pixel-Breaker/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/Multipixels/Pixel-Breaker.svg?style=for-the-badge
 [forks-url]: https://github.com/Multipixels/Pixel-Breaker/network/members
